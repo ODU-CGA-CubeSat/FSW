@@ -1,5 +1,5 @@
-baseURL = "https://odu-cga-cubesat.github.io/flight-software"
-title = "ODU/CGA CubeSat Flight Software"
+baseURL = "https://odu-cga-cubesat.github.io/dilophos"
+title = "DilophOS"
 theme = "geekdoc"
 pygmentsUseClasses = true
 pygmentsCodeFences = true
@@ -27,7 +27,7 @@ enableGitInfo = false
   # geekdocMenuBundle = true
   geekdocToC = 3
 
-  geekdocRepo = "https://github.com/odu-cga-cubesat/flight-software"
+  geekdocRepo = "https://github.com/odu-cga-cubesat/dilophos"
   geekdocEditPath = "edit/main/docs/content"
 
   geekdocSearch = true
