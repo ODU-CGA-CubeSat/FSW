@@ -8,7 +8,7 @@
 
 |Architecture 	
 |Standard services, mission apps	
-|Layered, components, ports, topologies"
+|Layered, components, ports, topologies
 
 |Demo/Training	
 |SDK	
@@ -44,10 +44,10 @@
 
 |===
 		
-Resources		
-https://nasa.github.io/fprime/		
-https://docs.kubos.com/1.21.0/index.html		
-https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9486943		
-https://www.scielo.br/j/jatm/a/ZNY8mTKcbh8MT5xvbvyytqG/?format=pdf&lang=en		
-https://llis.nasa.gov/lesson/2218		
-https://nasa.github.io/fprime/Architecture/FPrimeArchitectureShort.pdf		
+Resources +		
+https://nasa.github.io/fprime/ +	
+https://docs.kubos.com/1.21.0/index.html +		
+https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9486943 +		
+https://www.scielo.br/j/jatm/a/ZNY8mTKcbh8MT5xvbvyytqG/?format=pdf&lang=en +		
+https://llis.nasa.gov/lesson/2218 +		
+https://nasa.github.io/fprime/Architecture/FPrimeArchitectureShort.pdf +		
