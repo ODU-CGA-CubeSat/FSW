@@ -1,4 +1,4 @@
-.fswtradestudy.adoc
+.fswtradestudy
 |===
 |Criteria |KubOS	|F'
 
