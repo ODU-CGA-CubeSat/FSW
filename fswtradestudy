@@ -1,0 +1,53 @@
+.fswtradestudy.adoc
+|===
+|Criteria |KubOS	|F'
+
+|Technical Documentation	
+|Yes	
+|Yes
+
+|Architecture 	
+|Standard services, mission apps	
+|Layered, components, ports, topologies"
+
+|Demo/Training	
+|SDK	
+|Yes
+
+|Flight Heritage	
+|Yes	
+|Yes
+
+|Formal Specification	
+|Some
+|Yes
+
+|Semantics Definition	
+|Some
+|Yes
+
+|Modularity	
+|Yes	
+|Yes
+
+|Portability	
+|FreeRTOS, Linux	
+|"Just about any embedded system"
+
+|Support	
+|KubOS community	
+|F' community
+
+|Language	
+|Python, Rust, C	
+|C++
+
+|===
+		
+Resources		
+https://nasa.github.io/fprime/		
+https://docs.kubos.com/1.21.0/index.html		
+https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9486943		
+https://www.scielo.br/j/jatm/a/ZNY8mTKcbh8MT5xvbvyytqG/?format=pdf&lang=en		
+https://llis.nasa.gov/lesson/2218		
+https://nasa.github.io/fprime/Architecture/FPrimeArchitectureShort.pdf		
