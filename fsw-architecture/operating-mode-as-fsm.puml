@@ -1,0 +1,21 @@
+@startuml
+
+state AntennaDeployment
+      AntennaDeployment : Deploy antenna
+      AntennaDeployment : Verify deployment
+
+state SafeHold
+      SafeHold : Transmit SeaLion Beacon 
+      SafeHold : Query Receiver
+state Comms
+state MissionMode1
+state MissionMode2
+
+[*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
+SafeHold --> Comms : Ground Interrupt?
+SafeHold --> MissionMode1 : Time for MM1?
+SafeHold --> MissionMode2 : Time for MM2?
+AntennaDeployment --> SafeHold
+
+
+@enduml
