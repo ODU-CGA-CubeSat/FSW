@@ -1,0 +1,45 @@
+@startuml
+
+state AntennaDeployment
+      AntennaDeployment : Deploy antenna
+      AntennaDeployment : Verify deployment
+state SafeHold
+      SafeHold : Transmit SeaLion Beacon 
+state QueryReceiver
+      QueryReceiver : Check for GroundCommand
+state Comms
+      Comms : Read Memory
+      Comms : Downlink Telemetry 
+state Timer
+      Timer : Check if last computed ADOS time was 1s or more
+      Timer : Check if last computed GPSreceiver time was 10mins or more
+state MissionMode1
+      MissionMode1 : Query Impedence probe and Multi-Spectral sensor
+state MissionMode2
+      MissionMode2 : Verify DeCS deployment
+state ADOSTelemetryPacket
+      ADOSTelemetryPacket : Check for SwitchMode
+state ADOS 
+      ADOS : Compute Spacecraft Attitude
+      ADOS : Compute Orbit position
+      ADOS : Compute Timetable and Switch Mode
+state GPSreceiver 
+      GPSreceiver : Compute Spacecraft Attitude
+      GPSreceiver : Compute Orbit position
+      GPSreceiver : Compute Timetable and Switch Mode
+
+[*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
+AntennaDeployment --> SafeHold
+SafeHold --> QueryReceiver
+QueryReceiver --> Comms : Ground Interrupt?
+QueryReceiver --> Timer : No ground Interrupt
+Comms --> Timer
+MissionMode1 --> SafeHold
+MissionMode2 --> SafeHold
+ADOSTelemetryPacket --> MissionMode1 : SwitchMode = MM1
+ADOSTelemetryPacket --> MissionMode2 : SwitchMode = MM2
+ADOS --> ADOSTelemetryPacket
+Timer  --> ADOS : delta_time_GPS < 10 mins
+Timer --> GPSreceiver : delta_time_GPS >= 10 mins
+GPSreceiver --> ADOSTelemetryPacket
+@enduml
