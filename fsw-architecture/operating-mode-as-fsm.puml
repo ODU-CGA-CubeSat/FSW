@@ -11,22 +11,21 @@ state Comms
       Comms : Read Memory
       Comms : Downlink Telemetry 
 state Timer
-      Timer : Check if last computed ADOS time was 1s or more
+      Timer : Check if last computed OrbitPropagator time was 1s or more
       Timer : Check if last computed GPSreceiver time was 10mins or more
 state MissionMode1
-      MissionMode1 : Query Impedence probe and Multi-Spectral sensor
+      MissionMode1 : Collect and Store Impedence probe and Multi-Spectral sensor data 
 state MissionMode2
-      MissionMode2 : Verify DeCS deployment
-state ADOSTelemetryPacket
-      ADOSTelemetryPacket : Check for SwitchMode
-state ADOS 
-      ADOS : Compute Spacecraft Attitude
-      ADOS : Compute Orbit position
-      ADOS : Compute Timetable and Switch Mode
+      MissionMode2 : Turn on current supply for 2-minutes to burnwire mechanism 
+      MissionMode2 : Log DeCS deployment event 
+state ProcessScheduler
+      ProcessScheduler : Perform Scheduled Task
+state OrbitPropagator 
+      OrbitalPropagator : Compute Spacecraft Attitude
+      OrbitPropagator : Compute Orbit position
+      OrbitPropagator : Compute Timetable
 state GPSreceiver 
-      GPSreceiver : Compute Spacecraft Attitude
-      GPSreceiver : Compute Orbit position
-      GPSreceiver : Compute Timetable and Switch Mode
+      GPSreceiver : Ping GPS
 
 [*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
 AntennaDeployment --> SafeHold
@@ -36,10 +35,11 @@ QueryReceiver --> Timer : No ground Interrupt
 Comms --> Timer
 MissionMode1 --> SafeHold
 MissionMode2 --> SafeHold
-ADOSTelemetryPacket --> MissionMode1 : SwitchMode = MM1
-ADOSTelemetryPacket --> MissionMode2 : SwitchMode = MM2
-ADOS --> ADOSTelemetryPacket
-Timer  --> ADOS : delta_time_GPS < 10 mins
+ProcessScheduler --> SafeHold
+ProcessScheduler --> MissionMode1 
+ProcessScheduler --> MissionMode2 
+OrbitPropagator --> ProcessScheduler
+Timer  --> OrbitPropagator : delta_time_GPS < 10 mins
 Timer --> GPSreceiver : delta_time_GPS >= 10 mins
-GPSreceiver --> ADOSTelemetryPacket
+GPSreceiver --> OrbitPropagator
 @enduml
