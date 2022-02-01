@@ -7,9 +7,9 @@ state SafeHold
       SafeHold : Transmit SeaLion Beacon
 state QueryReceiver
       QueryReceiver : Check for GroundCommand
-state Comms
-      Comms : Read Memory
-      Comms : Downlink Telemetry
+state TelemetrySender
+      TelemetrySender : Read Memory
+      TelemetrySender : Downlink Telemetry
 state Timer
       Timer : Check if last computed OrbitPropagator time was 1s or more
       Timer : Check if last computed GPSreceiver time was 10mins or more
@@ -30,9 +30,9 @@ state GPSreceiver
 [*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
 AntennaDeployment --> SafeHold
 SafeHold --> QueryReceiver
-QueryReceiver --> Comms : Ground Interrupt?
+QueryReceiver --> TelemetrySender : Ground Interrupt?
 QueryReceiver --> Timer : No ground Interrupt
-Comms --> Timer
+TelemetrySender --> Timer
 MissionMode1 --> SafeHold
 MissionMode2 --> SafeHold
 ProcessScheduler --> SafeHold
