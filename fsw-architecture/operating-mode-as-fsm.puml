@@ -8,20 +8,22 @@ state SafeHold
 state QueryReceiver
       QueryReceiver : Check for GroundCommand
 state TelemetrySender
-      TelemetrySender : Read Memory
-      TelemetrySender : Downlink Telemetry
+      TelemetrySender : Downlink requested telemetry
 state Timer
-      Timer : Check if last computed OrbitPropagator time was 1s or more
-      Timer : Check if last computed GPSreceiver time was 10mins or more
+      Timer : Compute delta_time_beacon
+      Timer : Compute delta_time_GPS
+      Timer : Compute delta_time_attitude
 state MissionMode1
-      MissionMode1 : Collect and Store Impedence probe and Multi-Spectral sensor data
+      MissionMode1 : Collect & store Impedence probe data
+      MissionMode1 : Collect & store Multi-Spectral sensor data
 state MissionMode2
       MissionMode2 : Turn on current supply for 2-minutes to burnwire mechanism
       MissionMode2 : Log DeCS deployment event
+      MissionMode2 : Collect & store DeCS strain gauge data
 state ProcessScheduler
       ProcessScheduler : Perform Scheduled Task
 state OrbitPropagator
-      OrbitalPropagator : Compute Spacecraft Attitude
+      OrbitPropagator : Compute Spacecraft Attitude
       OrbitPropagator : Compute Orbit position
       OrbitPropagator : Compute Timetable
 state GPSreceiver
@@ -29,17 +31,19 @@ state GPSreceiver
 
 [*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
 AntennaDeployment --> SafeHold
-SafeHold --> QueryReceiver
+SafeHold -> QueryReceiver
 QueryReceiver --> TelemetrySender : Ground Interrupt?
-QueryReceiver --> Timer : No ground Interrupt
+QueryReceiver -> Timer : No ground Interrupt
 TelemetrySender --> Timer
-MissionMode1 --> SafeHold
-MissionMode2 --> SafeHold
-ProcessScheduler --> SafeHold
-ProcessScheduler --> MissionMode1
-ProcessScheduler --> MissionMode2
-OrbitPropagator --> ProcessScheduler
-Timer  --> OrbitPropagator : delta_time_GPS < 10 mins
-Timer --> GPSreceiver : delta_time_GPS >= 10 mins
+MissionMode1 --> Timer
+MissionMode2 --> Timer
 GPSreceiver --> OrbitPropagator
+OrbitPropagator --> ProcessScheduler
+Timer --> SafeHold : if delta_time_beacon >= 30 mins
+Timer --> GPSreceiver : elseif delta_time_GPS >= 10 mins
+Timer --> OrbitPropagator : else
+ProcessScheduler --> SafeHold : scheduled for beacon
+ProcessScheduler -> MissionMode1 : scheduled for MM1
+ProcessScheduler --> MissionMode2 : scheduled for MM1
+ProcessScheduler --> Timer : empty runqueue
 @enduml
