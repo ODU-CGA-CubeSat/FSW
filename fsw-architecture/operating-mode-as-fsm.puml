@@ -1,8 +1,8 @@
 @startuml
 
 state AntennaDeployment
-      AntennaDeployment : Deploy antenna
-      AntennaDeployment : Verify deployment
+      AntennaDeployment : Turn on current supply to antenna burnwire mechanism for 1 minute
+      AntennaDeployment : Record deployment time to event log
 state SafeHold
       SafeHold : Transmit SeaLion Beacon
 state QueryReceiver
@@ -30,7 +30,7 @@ state QueryHandler
 state ProcessScheduler
       ProcessScheduler : Add scheduled task to runqueue
 
-[*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
+[*] --> AntennaDeployment : Power on EPS & CDS \n Wait 45 mins
 AntennaDeployment --> SafeHold
 SafeHold --> QueryReceiver
 QueryReceiver --> QueryHandler : Ground station command received
