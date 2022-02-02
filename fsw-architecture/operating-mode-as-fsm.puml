@@ -12,7 +12,6 @@ state TelemetrySender
 state Timer
       Timer : Compute delta_time_beacon
       Timer : Compute delta_time_GPS
-      Timer : Compute delta_time_attitude
 state MissionMode1
       MissionMode1 : Record impedence probe & multi-spectral sensor data to event log for next 2 minutes at 1 second intervals
 state MissionMode2
