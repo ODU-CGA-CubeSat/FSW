@@ -6,7 +6,7 @@ state AntennaDeployment
 state SafeHold
       SafeHold : Transmit SeaLion Beacon
 state QueryReceiver
-      QueryReceiver : Check for GroundCommand
+      QueryReceiver : Listen for ground station command for next 2 minutes
 state TelemetrySender
       TelemetrySender : Downlink requested telemetry packet
 state Timer
@@ -31,8 +31,8 @@ state ProcessScheduler
 [*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
 AntennaDeployment --> SafeHold
 SafeHold -> QueryReceiver
-QueryReceiver --> QueryHandler : Ground Interrupt?
-QueryReceiver -> Timer : No ground Interrupt
+QueryReceiver --> QueryHandler : Ground station command received
+QueryReceiver -> Timer : No ground station command
 QueryHandler --> TelemetrySender : Telemetry requested
 QueryHandler --> ProcessScheduler : Task scheduling requested
 TelemetrySender --> QueryReceiver
