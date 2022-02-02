@@ -43,7 +43,7 @@ GPSreceiver --> OrbitPropagator
 OrbitPropagator --> ProcessDispatcher
 Timer --> SafeHold : if delta_time_beacon >= 30 mins
 Timer --> GPSreceiver : elseif delta_time_GPS >= 10 mins
-Timer --> OrbitPropagator : else
+Timer --> ProcessDispatcher : else
 ProcessDispatcher --> SafeHold : scheduled for beacon
 ProcessDispatcher --> MissionMode1 : scheduled for MM1
 ProcessDispatcher -> MissionMode2 : scheduled for MM1
