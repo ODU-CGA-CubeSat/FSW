@@ -14,13 +14,10 @@ state Timer
       Timer : Compute delta_time_GPS
       Timer : Compute delta_time_attitude
 state MissionMode1
-      MissionMode1 : Collect & store Impedence probe data
-      MissionMode1 : Collect & store Multi-Spectral sensor data
-      MissionMode1 : Log MM1 data collection event
+      MissionMode1 : Record impedence probe & multi-spectral sensor data to event log for next 2 minutes at 1 second intervals
 state MissionMode2
       MissionMode2 : Turn on current supply for 2-minutes to burnwire mechanism
-      MissionMode2 : Log DeCS deployment event
-      MissionMode2 : Collect & store DeCS strain gauge data
+      MissionMode2 : Record DeCS strain gauge data to event log for next 2 minutes at 1 second intervals
 state ProcessDispatcher
       ProcessDispatcher : Check runqueue for scheduled task
 state OrbitPropagator
@@ -51,7 +48,7 @@ Timer --> SafeHold : if delta_time_beacon >= 30 mins
 Timer --> GPSreceiver : elseif delta_time_GPS >= 10 mins
 Timer --> OrbitPropagator : else
 ProcessDispatcher --> SafeHold : scheduled for beacon
-ProcessDispatcher -> MissionMode1 : scheduled for MM1
-ProcessDispatcher --> MissionMode2 : scheduled for MM1
+ProcessDispatcher --> MissionMode1 : scheduled for MM1
+ProcessDispatcher -> MissionMode2 : scheduled for MM1
 ProcessDispatcher --> Timer : empty runqueue
 @enduml
