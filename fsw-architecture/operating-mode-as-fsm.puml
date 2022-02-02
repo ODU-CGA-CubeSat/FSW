@@ -16,6 +16,7 @@ state Timer
 state MissionMode1
       MissionMode1 : Collect & store Impedence probe data
       MissionMode1 : Collect & store Multi-Spectral sensor data
+      MissionMode1 : Log MM1 data collection event
 state MissionMode2
       MissionMode2 : Turn on current supply for 2-minutes to burnwire mechanism
       MissionMode2 : Log DeCS deployment event
