@@ -20,8 +20,8 @@ state MissionMode2
       MissionMode2 : Turn on current supply for 2-minutes to burnwire mechanism
       MissionMode2 : Log DeCS deployment event
       MissionMode2 : Collect & store DeCS strain gauge data
-state ProcessScheduler
-      ProcessScheduler : Perform Scheduled Task
+state ProcessDispatcher
+      ProcessDispatcher : Perform Scheduled Task
 state OrbitPropagator
       OrbitPropagator : Compute Spacecraft Attitude
       OrbitPropagator : Compute Orbit position
@@ -38,12 +38,12 @@ TelemetrySender --> Timer
 MissionMode1 --> Timer
 MissionMode2 --> Timer
 GPSreceiver --> OrbitPropagator
-OrbitPropagator --> ProcessScheduler
+OrbitPropagator --> ProcessDispatcher
 Timer --> SafeHold : if delta_time_beacon >= 30 mins
 Timer --> GPSreceiver : elseif delta_time_GPS >= 10 mins
 Timer --> OrbitPropagator : else
-ProcessScheduler --> SafeHold : scheduled for beacon
-ProcessScheduler -> MissionMode1 : scheduled for MM1
-ProcessScheduler --> MissionMode2 : scheduled for MM1
-ProcessScheduler --> Timer : empty runqueue
+ProcessDispatcher --> SafeHold : scheduled for beacon
+ProcessDispatcher -> MissionMode1 : scheduled for MM1
+ProcessDispatcher --> MissionMode2 : scheduled for MM1
+ProcessDispatcher --> Timer : empty runqueue
 @enduml
