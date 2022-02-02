@@ -24,7 +24,7 @@ state ProcessDispatcher
 state OrbitPropagator
       OrbitPropagator : Generate orbit propagation table
 state BeaconScheduler
-      BeaconScheduler : Schedules a beacon to occur on estimated upcoming ground station overpass
+      BeaconScheduler : Schedule a beacon to occur on estimated upcoming ground station overpass
 state GPSreceiver
       GPSreceiver : Ping GPS
 state QueryHandler
@@ -52,7 +52,7 @@ Timer --> SafeHold : if delta_time_beacon >= 30 mins
 Timer --> GPSreceiver : elseif delta_time_GPS >= 2 mins
 Timer --> ProcessDispatcher : else
 ProcessDispatcher --> MissionMode1 : scheduled for MM1
-ProcessDispatcher --> MissionMode2 : scheduled for MM1
+ProcessDispatcher --> MissionMode2 : scheduled for MM2
 ProcessDispatcher --> Timer : empty runqueue
 ProcessDispatcher --> EventLogSender : scheduled event log downlink
 ProcessDispatcher --> TelemetrySender : scheduled telemetry downlink
