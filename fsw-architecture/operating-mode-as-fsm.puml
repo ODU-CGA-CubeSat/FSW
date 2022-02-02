@@ -21,9 +21,7 @@ state MissionMode2
 state ProcessDispatcher
       ProcessDispatcher : Check runqueue for scheduled task
 state OrbitPropagator
-      OrbitPropagator : Compute Spacecraft Attitude
-      OrbitPropagator : Compute Orbit position
-      OrbitPropagator : Compute Timetable
+      OrbitPropagator : Generate orbit propagation table
 state GPSreceiver
       GPSreceiver : Ping GPS
 state QueryHandler
