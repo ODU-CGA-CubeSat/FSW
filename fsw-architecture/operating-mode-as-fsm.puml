@@ -9,6 +9,8 @@ state QueryReceiver
       QueryReceiver : Listen for ground station command for next 2 minutes
 state TelemetrySender
       TelemetrySender : Downlink requested telemetry packet
+state EventLogSender
+      EventLogSender : Downlink requested event log
 state Timer
       Timer : Compute delta_time_beacon
       Timer : Compute delta_time_GPS
@@ -34,8 +36,10 @@ SafeHold -> QueryReceiver
 QueryReceiver --> QueryHandler : Ground station command received
 QueryReceiver -> Timer : No ground station command
 QueryHandler --> TelemetrySender : Telemetry requested
+QueryHandler --> EventLogSender : Event log requested
 QueryHandler --> ProcessScheduler : Task scheduling requested
 TelemetrySender --> QueryReceiver
+EventLogSender --> QueryReceiver
 ProcessScheduler --> QueryReceiver
 MissionMode1 --> Timer
 MissionMode2 --> Timer
