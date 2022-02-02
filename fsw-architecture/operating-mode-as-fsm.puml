@@ -32,9 +32,9 @@ state ProcessScheduler
 
 [*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
 AntennaDeployment --> SafeHold
-SafeHold -> QueryReceiver
+SafeHold --> QueryReceiver
 QueryReceiver --> QueryHandler : Ground station command received
-QueryReceiver -> Timer : No ground station command
+QueryReceiver --> Timer : No ground station command
 QueryHandler --> TelemetrySender : Telemetry requested
 QueryHandler --> EventLogSender : Event log requested
 QueryHandler --> ProcessScheduler : Task scheduling requested
@@ -48,8 +48,9 @@ OrbitPropagator --> ProcessDispatcher
 Timer --> SafeHold : if delta_time_beacon >= 30 mins
 Timer --> GPSreceiver : elseif delta_time_GPS >= 10 mins
 Timer --> ProcessDispatcher : else
-ProcessDispatcher --> SafeHold : scheduled for beacon
 ProcessDispatcher --> MissionMode1 : scheduled for MM1
-ProcessDispatcher -> MissionMode2 : scheduled for MM1
+ProcessDispatcher --> MissionMode2 : scheduled for MM1
 ProcessDispatcher --> Timer : empty runqueue
+ProcessDispatcher --> EventLogSender : scheduled event log downlink
+ProcessDispatcher --> TelemetrySender : scheduled telemetry downlink
 @enduml
