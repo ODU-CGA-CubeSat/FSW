@@ -8,7 +8,7 @@ state SafeHold
 state QueryReceiver
       QueryReceiver : Check for GroundCommand
 state TelemetrySender
-      TelemetrySender : Downlink requested telemetry
+      TelemetrySender : Downlink requested telemetry packet
 state Timer
       Timer : Compute delta_time_beacon
       Timer : Compute delta_time_GPS
@@ -21,18 +21,21 @@ state MissionMode2
       MissionMode2 : Log DeCS deployment event
       MissionMode2 : Collect & store DeCS strain gauge data
 state ProcessDispatcher
-      ProcessDispatcher : Perform Scheduled Task
+      ProcessDispatcher : Check runqueue for scheduled task
 state OrbitPropagator
       OrbitPropagator : Compute Spacecraft Attitude
       OrbitPropagator : Compute Orbit position
       OrbitPropagator : Compute Timetable
 state GPSreceiver
       GPSreceiver : Ping GPS
+state QueryHandler
+      QueryHandler : Process query from ground station
 
 [*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
 AntennaDeployment --> SafeHold
 SafeHold -> QueryReceiver
-QueryReceiver --> TelemetrySender : Ground Interrupt?
+QueryReceiver --> QueryHandler : Ground Interrupt?
+QueryHandler --> TelemetrySender : Telemetry requested
 QueryReceiver -> Timer : No ground Interrupt
 TelemetrySender --> Timer
 MissionMode1 --> Timer
