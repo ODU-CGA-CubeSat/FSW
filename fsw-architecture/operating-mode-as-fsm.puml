@@ -31,14 +31,18 @@ state GPSreceiver
       GPSreceiver : Ping GPS
 state QueryHandler
       QueryHandler : Process query from ground station
+state ProcessScheduler
+      ProcessScheduler : Add scheduled task to runqueue
 
 [*] --> AntennaDeployment : EPS & CDS \n Powered on \n 45 min delay
 AntennaDeployment --> SafeHold
 SafeHold -> QueryReceiver
 QueryReceiver --> QueryHandler : Ground Interrupt?
-QueryHandler --> TelemetrySender : Telemetry requested
 QueryReceiver -> Timer : No ground Interrupt
-TelemetrySender --> Timer
+QueryHandler --> TelemetrySender : Telemetry requested
+QueryHandler --> ProcessScheduler : Task scheduling requested
+TelemetrySender --> QueryReceiver
+ProcessScheduler --> QueryReceiver
 MissionMode1 --> Timer
 MissionMode2 --> Timer
 GPSreceiver --> OrbitPropagator
