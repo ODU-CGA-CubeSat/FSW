@@ -16,7 +16,7 @@ state Timer
 state MissionMode1
       MissionMode1 : Record impedence probe & multi-spectral sensor data to event log for next 2 minutes at 1 second intervals
 state MissionMode2
-      MissionMode2 : Turn on current supply for 2-minutes to burnwire mechanism
+      MissionMode2 : Turn on current supply to burnwire mechanism for next 1 minute
       MissionMode2 : Record DeCS strain gauge data to event log for next 2 minutes at 1 second intervals
 state ProcessDispatcher
       ProcessDispatcher : Check runqueue for scheduled task
