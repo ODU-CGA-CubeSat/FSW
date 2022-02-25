@@ -3,33 +3,40 @@
 [*] --> FiniteStateMachine
 state FiniteStateMachine {
       state AntennaDeployment
-            AntennaDeployment : Turn on current supply to antenna burnwire mechanism for 1 minute
+            AntennaDeployment : Turn on current supply to antenna 
+            AntennaDeployment : burnwire mechanism for 1 minute
             AntennaDeployment : Record deployment time to event log
       state SafeHold
             SafeHold : Transmit SeaLion Beacon
       state QueryReceiver
-            QueryReceiver : Listen for ground station command for next 2 minutes
+            QueryReceiver : Listen for ground station 
+            QueryReceiver : command for next 2 minutes
       state TelemetrySender
             TelemetrySender : Downlink requested telemetry packet
       state EventLogSender
             EventLogSender : Downlink requested event log
-      state Timer
-            Timer : Compute delta_time_beacon
-            Timer : Compute delta_time_GPS
+      state BeaconUpdater
+            BeaconUpdater : Set beacon rate as per query
       state MissionMode1
-            MissionMode1 : Record impedence probe data to event log for next 2 minutes at 1 second intervals
+            MissionMode1 : Record impedence probe data to event log 
+            MissionMode1 : for next 2 minutes at 1 second intervals
       state MissionMode2
-            MissionMode2 : Turn on current supply to DeCs burnwire mechanism for 1 minute
-            MissionMode2 : Record DeCS strain gauge data to event log for next 2 minutes at 1 second intervals
+            MissionMode2 : Turn on current supply to DeCs burnwire 
+            MissionMode2 : mechanism for 1 minute
+            MissionMode2 : Record DeCS strain gauge data to event 
+            MissionMode2 : log for next 2 minutes at 1 second intervals
       state MissionMode3
-            MissionMode3 : Record multi-spectral sensor data to event log for next 2 minutes at 1 second intervals
+            MissionMode3 : Record multi-spectral sensor data to event 
+            MissionMode3 : log for next 2 minutes at 1 second intervals
       state TaskDispatcher
             TaskDispatcher : Check runqueue for scheduled task
       state OrbitPropagator
             OrbitPropagator : Generate orbit propagation table
       state EventLogDownlinkScheduler
-            EventLogDownlinkScheduler : Cross-refer between propagation table and available ground stations
-            EventLogDownlinkScheduler : Schedule an eventlog downlink to occur on estimated upcoming ground station overpass
+            EventLogDownlinkScheduler : Cross-refer between propagation 
+            EventLogDownlinkScheduler : table and available ground stations
+            EventLogDownlinkScheduler : Schedule an eventlog downlink to occur 
+            EventLogDownlinkScheduler : on estimated upcoming ground station overpass
       state GPSreceiver
             GPSreceiver : Ping GPS
       state QueryHandler
@@ -41,33 +48,43 @@ state FiniteStateMachine {
       AntennaDeployment --> SafeHold
       SafeHold --> QueryReceiver
       QueryReceiver --> QueryHandler : Ground station command received
-      QueryReceiver --> Timer : No ground station command
       QueryHandler --> TelemetrySender : Telemetry requested
       QueryHandler --> EventLogSender : Event log requested
       QueryHandler --> TaskScheduler : Task scheduling requested
+      QueryHandler --> BeaconUpdater
+      BeaconUpdater --> QueryReceiver
       TelemetrySender --> QueryReceiver
       EventLogSender --> QueryReceiver
       TaskScheduler --> QueryReceiver
-      MissionMode1 --> Timer
-      MissionMode2 --> Timer
-      MissionMode3 --> Timer
       GPSreceiver --> OrbitPropagator
       OrbitPropagator --> EventLogDownlinkScheduler
       EventLogDownlinkScheduler --> TaskDispatcher
-      Timer --> SafeHold : elseif delta_time_beacon >= 1 min
-      Timer --> GPSreceiver : if delta_time_GPS >= 2 mins
-      Timer --> TaskDispatcher : else
+      QueryReceiver --> TaskDispatcher : No ground station command
       TaskDispatcher --> MissionMode1 : scheduled for MM1
       TaskDispatcher --> MissionMode2 : scheduled for MM2
       TaskDispatcher --> MissionMode3 : scheduled for MM3
-      TaskDispatcher --> Timer : empty runqueue
       TaskDispatcher --> EventLogSender : scheduled event log downlink
-      TaskDispatcher --> TelemetrySender : scheduled telemetry downlink
-      ||
+      TaskDispatcher --> TelemetrySender : scheduled for telemetry downlink
+      TaskDispatcher --> GPSreceiver : scheduled for GPS ping
+      TaskDispatcher --> SafeHold : scheduled for Beacon
+      MissionMode1 --> TaskDispatcher
+      MissionMode2 --> TaskDispatcher
+      MissionMode3 --> TaskDispatcher
+      --
       state WatchdogTimer
             WatchdogTimer : Wait 30 minutes
             WatchdogTimer : Reset OBC
       [*] --> WatchdogTimer
       WatchdogTimer --> WatchdogTimer
+      --
+      state BeaconTimer
+            BeaconTimer : if time elapsed since last beacon exceeds beacon rate add scheduled beacon to runqueue
+      [*] --> BeaconTimer 
+      BeaconTimer --> BeaconTimer 
+      --
+      state GPSTimer
+            GPSTimer : if time elapsed since last GPS ping exceeds GPS ping rate add scheduled GPS ping to runqueue
+      [*] --> GPSTimer 
+      GPSTimer --> GPSTimer 
 }
 @enduml
