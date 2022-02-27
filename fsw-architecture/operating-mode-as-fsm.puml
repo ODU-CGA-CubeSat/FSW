@@ -32,15 +32,6 @@ state FiniteStateMachine {
             MissionMode3 : log for next 2 minutes at 1 second intervals
       state TaskDispatcher
             TaskDispatcher : Check runqueue for scheduled task
-      state OrbitPropagator
-            OrbitPropagator : Generate orbit propagation table
-      state EventLogDownlinkScheduler
-            EventLogDownlinkScheduler : Cross-refer between propagation
-            EventLogDownlinkScheduler : table and available ground stations
-            EventLogDownlinkScheduler : Schedule an eventlog downlink to occur
-            EventLogDownlinkScheduler : on estimated upcoming ground station overpass
-      state GPSreceiver
-            GPSreceiver : Ping GPS
       state QueryHandler
             QueryHandler : Process query from ground station
       state TaskScheduler
@@ -58,16 +49,12 @@ state FiniteStateMachine {
       TelemetrySender --> QueryReceiver
       EventLogSender --> QueryReceiver
       TaskScheduler --> QueryReceiver
-      GPSreceiver --> OrbitPropagator
-      OrbitPropagator --> EventLogDownlinkScheduler
-      EventLogDownlinkScheduler --> TaskDispatcher
       QueryReceiver --> TaskDispatcher : No ground station command
       TaskDispatcher --> MissionMode1 : scheduled for MM1
       TaskDispatcher --> MissionMode2 : scheduled for MM2
       TaskDispatcher --> MissionMode3 : scheduled for MM3
       TaskDispatcher --> EventLogSender : scheduled event log downlink
       TaskDispatcher --> TelemetrySender : scheduled for telemetry downlink
-      TaskDispatcher --> GPSreceiver : scheduled for GPS ping
       TaskDispatcher --> SafeHold : scheduled for Beacon
       MissionMode1 --> TaskDispatcher
       MissionMode2 --> TaskDispatcher
