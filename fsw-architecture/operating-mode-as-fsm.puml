@@ -50,6 +50,7 @@ state FiniteStateMachine {
       EventLogSender --> QueryReceiver
       TaskScheduler --> QueryReceiver
       QueryReceiver --> TaskDispatcher : No ground station command
+      TaskDispatcher --> TaskDispatcher : no scheduled tasks
       TaskDispatcher --> MissionMode1 : scheduled for MM1
       TaskDispatcher --> MissionMode2 : scheduled for MM2
       TaskDispatcher --> MissionMode3 : scheduled for MM3
