@@ -61,8 +61,7 @@ state FiniteStateMachine {
       MissionMode3 --> TaskDispatcher
       --
       state WatchdogTimer
-            WatchdogTimer : Wait 30 minutes
-            WatchdogTimer : Reset OBC
+            WatchdogTimer : pre-empt current task to reset OBC (default: every 30 minutes)
       [*] --> WatchdogTimer
       WatchdogTimer --> WatchdogTimer
       --
