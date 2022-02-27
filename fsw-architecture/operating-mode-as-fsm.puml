@@ -86,5 +86,10 @@ state FiniteStateMachine {
             GPSTimer : if time elapsed since last GPS ping exceeds GPS ping rate add scheduled GPS ping to runqueue
       [*] --> GPSTimer
       GPSTimer --> GPSTimer
+      --
+      state OrbitPropagatorTimer
+            OrbitPropagatorTimer : pre-empt current task to compute and store latest TLE to memory (default: every 1 second), using orbit propagator
+      [*] --> OrbitPropagatorTimer
+      OrbitPropagatorTimer --> OrbitPropagatorTimer
 }
 @enduml
