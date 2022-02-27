@@ -16,8 +16,9 @@ state FiniteStateMachine {
             TelemetrySender : Downlink requested telemetry packet
       state EventLogSender
             EventLogSender : Downlink requested event log
-      state BeaconUpdater
-            BeaconUpdater : Set beacon rate as per query
+      state TimerUpdater
+      TimerUpdater : Set timer rate as per query
+      note bottom of TimerUpdater : e.g., BeaconTimer, GPSTimer, OrbitPropagatorTimer
       state MissionMode1
             MissionMode1 : Record impedence probe data to event log
             MissionMode1 : for next 2 minutes at 1 second intervals
@@ -52,8 +53,8 @@ state FiniteStateMachine {
       QueryHandler --> TelemetrySender : Telemetry requested
       QueryHandler --> EventLogSender : Event log requested
       QueryHandler --> TaskScheduler : Task scheduling requested
-      QueryHandler --> BeaconUpdater
-      BeaconUpdater --> QueryReceiver
+      QueryHandler --> TimerUpdater
+      TimerUpdater --> QueryReceiver
       TelemetrySender --> QueryReceiver
       EventLogSender --> QueryReceiver
       TaskScheduler --> QueryReceiver
