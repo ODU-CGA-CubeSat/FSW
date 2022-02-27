@@ -78,7 +78,7 @@ state FiniteStateMachine {
       WatchdogTimer --> WatchdogTimer
       --
       state BeaconTimer
-            BeaconTimer : if time elapsed since last beacon exceeds beacon rate add scheduled beacon to runqueue
+            BeaconTimer : pre-empt current task to add scheduled beacon to runqueue (default: every 1 minute)
       [*] --> BeaconTimer
       BeaconTimer --> BeaconTimer
       --
