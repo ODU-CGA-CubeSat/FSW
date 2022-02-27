@@ -22,14 +22,17 @@ state FiniteStateMachine {
       state MissionMode1
             MissionMode1 : Record impedence probe data to event log
             MissionMode1 : for next 2 minutes at 1 second intervals
+            MissionMode1 : Record TLE entering and existing MM1
       state MissionMode2
             MissionMode2 : Turn on current supply to DeCs burnwire
             MissionMode2 : mechanism for 1 minute
             MissionMode2 : Record DeCS strain gauge data to event
             MissionMode2 : log for next 2 minutes at 1 second intervals
+            MissionMode2 : Record TLE entering and existing MM2
       state MissionMode3
             MissionMode3 : Record multi-spectral sensor data to event
             MissionMode3 : log for next 2 minutes at 1 second intervals
+            MissionMode3 : Record TLE entering and existing MM3
       state TaskDispatcher
             TaskDispatcher : Check runqueue for scheduled task
       state QueryHandler
