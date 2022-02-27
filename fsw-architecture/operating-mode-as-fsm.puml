@@ -83,7 +83,7 @@ state FiniteStateMachine {
       BeaconTimer --> BeaconTimer
       --
       state GPSTimer
-            GPSTimer : if time elapsed since last GPS ping exceeds GPS ping rate add scheduled GPS ping to runqueue
+            GPSTimer : pre-empt current task to ping and store latest lattitude, longitude, & altitude data to memory (default: every 10 minutes)
       [*] --> GPSTimer
       GPSTimer --> GPSTimer
       --
