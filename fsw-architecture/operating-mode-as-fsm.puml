@@ -8,6 +8,7 @@ state FiniteStateMachine {
             AntennaDeployment : Record deployment time to event log
       state SafeHold
             SafeHold : Transmit SeaLion Beacon
+      note right of SafeHold : alternate beacon between satellite health telemetry & eventlog (mission data)
       state QueryReceiver
             QueryReceiver : Listen for ground station
             QueryReceiver : command for next 2 minutes
